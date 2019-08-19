@@ -1,26 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+
+import "./App.css";
 
 const App: React.FC = () => {
+  const [value, setValue] = useState<string>("");
+  const [todos, setTodos] = useState<string[]>([]);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="list-container">
+      <form
+        onSubmit={event => {
+          event.preventDefault();
+          if (!!value) {
+            setTodos([...todos, value]);
+            setValue("");
+          }
+          return;
+        }}
+      >
+        <input
+          type="text"
+          value={value}
+          onChange={event => setValue(event.target.value)}
+        />
+        <button type="submit">adicionar</button>
+      </form>
+      <ul>
+        {todos.map((todo, index) => (
+          <li key={index}>{todo}</li>
+        ))}
+      </ul>
     </div>
   );
-}
+};
 
 export default App;
